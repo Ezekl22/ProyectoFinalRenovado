@@ -1,5 +1,5 @@
 <?php
-require_once 'models/User.php';
+require_once 'models/UsuarioMdl.php';
 require_once 'controladores/UsuarioCtr.php';
 
 ob_start();

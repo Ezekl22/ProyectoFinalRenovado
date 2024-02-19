@@ -48,7 +48,7 @@
                                         <label class="input-group-text" for="tipo">Tipo</label>
                                         <select class="form-select" id="tipo" name="tipo" required>
                                             <option value="Producto" <?php echo ($producto['tipo'] == 'Producto') ? 'selected' : ''; ?> selected>Producto</option>
-                                            <option value="Repuesto" <?php echo ($user['tipo'] == 'Repuesto') ? 'selected' : ''; ?> >Repuesto</option>
+                                            <option value="Repuesto" <?php echo ($usuario['tipo'] == 'Repuesto') ? 'selected' : ''; ?> >Repuesto</option>
                                         </select>
                                     </div>
                                 </div>

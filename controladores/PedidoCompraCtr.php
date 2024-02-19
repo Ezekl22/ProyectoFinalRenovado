@@ -42,7 +42,7 @@ class PedidoCompraCtr {
 
     // public function create() {
     //     // Mostrar el formulario de creación de usuario
-    //     require_once 'views/user/create.php';
+    //     require_once 'views/usuario/create.php';
     // }
 
     // public function store($data) {
@@ -50,8 +50,8 @@ class PedidoCompraCtr {
     //     // ...
 
     //     // Crear un nuevo usuario en la base de datos
-    //     $user = new User($data['name'], $data['lastname'], $data['type'], $data['username'], $data['password']);
-    //     $this->pedidoCompraDAO->createUser($user);
+    //     $usuario = new Usuario($data['name'], $data['lastname'], $data['type'], $data['username'], $data['password']);
+    //     $this->pedidoCompraDAO->createUsuario($usuario);
 
     //     // Redireccionar a la página principal de usuarios
     //     header('Location: index.php?action=index');

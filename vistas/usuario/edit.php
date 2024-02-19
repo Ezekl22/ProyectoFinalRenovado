@@ -3,7 +3,7 @@
     $id = isset($_GET['id']) ? $_GET['id'] : '';
     $action = isset($_GET['action']) ? $_GET['action'] : '';
     $usuarioCtr = new UsuarioCtr();
-    $user = $usuarioCtr->userDAO->getUsuarioById($id);
+    $usuario = $usuarioCtr->usuarioDAO->getUsuarioById($id);
 
     if($action == 'edit' && $id != ''){
 ?>
@@ -22,17 +22,17 @@
                             <div class="my-3 d-flex flex-row">
                                 <div class="input-group input-group-sm mb-3">
                                     <label class="input-group-text" for="nombre" id="inputGroup-sizing-sm">Nombre:</label>
-                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="nombre" name="nombre" value="<?php echo $user['name']; ?>" required>
+                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="nombre" name="nombre" value="<?php echo $usuario['nombre']; ?>" required>
                                 </div>
                                 <div class="input-group input-group-sm mb-3 ms-5">
                                     <label class="input-group-text" for="apellido" id="inputGroup-sizing-sm">Apellido:</label>
-                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="apellido" name="apellido" value="<?php echo $user['lastname']; ?>" required>
+                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="apellido" name="apellido" value="<?php echo $usuario['apellido']; ?>" required>
                                 </div>
                             </div>
                             <div class="d-flex flex-row">
                                 <div class="input-group input-group-sm mb-3">
                                     <label class="input-group-text" for="nombre_usuario" id="inputGroup-sizing-sm">Mail:</label>
-                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="mail" name="mail" value="<?php echo $user['mail']; ?>" required>
+                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="mail" name="mail" value="<?php echo $usuario['mail']; ?>" required>
                                 </div>
                                 <div class="input-group input-group-sm mb-3 ms-5">
                                     <label class="input-group-text" for="contrasena" id="inputGroup-sizing-sm">Contraseña:</label>
@@ -41,9 +41,9 @@
                                 <div class="input-group mb-2 ms-5">
                                     <label class="input-group-text" for="tipo">Tipo:</label>
                                     <select class="form-select" id="tipo" name="tipo" required>
-                                        <option value="Administrador" <?php echo ($user['type'] == 'Administrador') ? 'selected' : ''; ?>>Administrador</option>
-                                        <option value="Vendedor" <?php echo ($user['type'] == 'Vendedor') ? 'selected' : ''; ?>>Vendedor</option>
-                                        <option value="Reparador" <?php echo ($user['type'] == 'Reparador') ? 'selected' : ''; ?>>Reparador</option>
+                                        <option value="Administrador" <?php echo ($usuario['tipo'] == 'Administrador') ? 'selected' : ''; ?>>Administrador</option>
+                                        <option value="Vendedor" <?php echo ($usuario['tipo'] == 'Vendedor') ? 'selected' : ''; ?>>Vendedor</option>
+                                        <option value="Reparador" <?php echo ($usuario['tipo'] == 'Reparador') ? 'selected' : ''; ?>>Reparador</option>
                                     </select>
                                 </div>
                             </div>

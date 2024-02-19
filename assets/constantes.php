@@ -37,6 +37,7 @@ define('GRILLA_USUARIOS', array("Nombre", "Apellido", "Tipo", "Mail"));
 define('GRILLA_PRESUPUESTOS', array("Cliente", "Comprobante", "Tipo", "Estado", "Fecha", "Punto de venta", "Total"));
 define('GRILLA_PRESUPUESTO_PRODUCTOS', array("Producto", "Cantidad", "Valor unitario", "Total", "Selección"));
 define('BOTONES_POPUP_PRODUCTOS', array(["texto" => "Cancelar", "tipo" => "button", "href" => ""], ["texto" => "Seleccionar", "tipo" => "button", "href" => "", "onclick" => "cargarGrillaProducto()"]));
+define('BOTONES_POPUP_ELIMINAR', array(["texto" => "Cancelar", "tipo" => "button", "href" => ""],["texto" => "Eliminar", "tipo" => "button", "href" => "", "onclick" => ""]));
 
 define('INICIO_SESION_BTN_P', array(["texto" => "Cancelar", "tipo" => "button", "href" => ""], ["texto" => "Ingresar", "tipo" => "submit", "href" => ""]));
 $recuperarContrasenaBotonesP = array(["texto" => "cancelar", "tipo" => "button", "href" => ""], ["texto" => "Enviar", "tipo" => "submit", "href" => ""]);

@@ -1,18 +1,16 @@
 <?php
-require_once 'models/User.php';
-require_once 'models/UserDAO.php';
+require_once 'models/UsuarioMdl.php';
+require_once 'models/UsuarioDAO.php';
 require_once 'controladores/GrillaCtr.php';
 require_once 'models/GrillaMdl.php';
 
-class UsuarioCtr
-{
-    private $userDAO;
+class UsuarioCtr {
+    private $usuarioDAO;
 
-    public function __construct()
-    {
-        $this->userDAO = new UserDAO();
-        $action = isset($_GET['action']) ? $_GET['action'] : '';
-        $id = isset($_GET['id']) ? $_GET['id'] : '';
+    public function __construct() {
+        $this->usuarioDAO = new UsuarioDAO();
+        $action = isset($_GET['action'])?$_GET['action']:'';
+        $id = isset($_GET['id'])?$_GET['id']:'';
         switch ($action) {
             case 'created':
                 $this->create();
@@ -36,22 +34,21 @@ class UsuarioCtr
         session_start();
         $gestionPantallaCtr = $_SESSION['session']->getGestionPantallaCtr();
         session_write_close();
-        $grillaMdl = new GrillaMdl(GRILLA_USUARIOS, $action == 'searched' && $termino != "" ? $this->search() : $this->getAllUsers(), [0, 1]);
+        $grillaMdl = new GrillaMdl(GRILLA_USUARIOS, $action == 'searched' && $termino != "" ? $this->search() : $this->getAllUsuarios(), [0, 1]);
         $grillaCtr = new GrillaCtr($grillaMdl);
 
 
         // Cargar la vista con los datos
-        require_once 'vistas/usuario/index.php';
+        require_once 'vistas/usuario/usuario.php';
     }
 
-    public function getAllUsers()
-    {
-        return $this->userDAO->getAllUsers();
+    public function getAllUsuarios(){
+        return $this->usuarioDAO->getAllUsuarios();
     }
 
     public function search()
     {
-        return $this->userDAO->search();
+        return $this->usuarioDAO->search();
     }
 
     public function getPantallaCreate()
@@ -69,12 +66,12 @@ class UsuarioCtr
             $tipo = $_POST['tipo'];
             $mail = $_POST['mail'];
             $contrasena = $_POST['contrasena'];
-
-            // Crea un nuevo objeto User con los datos del formulario
-            $user = new User($nombre, $apellido, $tipo, $mail, $contrasena);
-
+    
+            // Crea un nuevo objeto Usuario con los datos del formulario
+            $usuario = new Usuario($nombre, $apellido, $tipo, $mail, $contrasena);
+    
             // Llama a la función para crear el usuario en la base de datos
-            $this->userDAO->createUser($user);
+            $this->usuarioDAO->createUsuario($usuario);
         }
     }
 
@@ -84,37 +81,33 @@ class UsuarioCtr
         require_once 'vistas/usuario/edit.php';
     }
 
-    public function update($id)
-    {
-        if (isset($_POST["nombre"])) {
-            $user = new User($_POST["nombre"], $_POST["apellido"], $_POST["tipo"], $_POST["mail"], $_POST["contrasena"]);
-            $user->setIdUsuario($id);
-            $this->userDAO->updateUser($user);
+    public function update($id) {
+        if(isset($_POST["nombre"])){
+            $usuario = new Usuario($_POST["nombre"], $_POST["apellido"], $_POST["tipo"], $_POST["mail"], $_POST["contrasena"]);
+            $usuario->setIdUsuario($id);
+            $this->usuarioDAO->updateUsuario($usuario);
         }
     }
 
-    public function getPantallaDelete()
-    {
-        require_once 'vistas/usuario/delete.php';
+   public function getPantallaDelete(){
+        $gestionPantallaCtr = $_SESSION['session']->getGestionPantallaCtr();
+        $gestionPantallaCtr->crearPopUp(new PopUpMdl('delete','Eliminar Usuario',"",BOTONES_POPUP_ELIMINAR,'index.php?action=delete'));
         $this->index();
     }
 
-    public function delete($id)
-    {
-        if (strtoupper($this->getUsuarioById($id)[3]) != "ADMINISTRADOR BASE")
-            $this->userDAO->deleteUser($id);
+    public function delete($id) {
+        if(strtoupper($this->getUsuarioById($id)[3]) != "ADMINISTRADOR BASE")
+        $this->usuarioDAO->deleteUsuario($id);
     }
 
-    public function getUsuarioById($id)
-    {
-        $this->userDAO->getUsuarioById($id);
+    public function getUsuarioById($id){
+        $this->usuarioDAO->getUsuarioById($id);
     }
 
-    public function getUsuarioByMailContra($mail, $contrasena)
-    {
-        $usuarioDB = $this->userDAO->getUsuarioByMailContra($mail, $contrasena);
+    public function getUsuarioByMailContra($mail,$contrasena){
+        $usuarioDB = $this->usuarioDAO->getUsuarioByMailContra($mail,$contrasena);
 
-        $usuario = count($usuarioDB) > 0 ? new User($usuarioDB['nombre'], $usuarioDB['apellido'], $usuarioDB['tipo'], $usuarioDB['mail']) : $usuarioDB;
+        $usuario = count($usuarioDB) > 0? new Usuario($usuarioDB['nombre'], $usuarioDB['apellido'],$usuarioDB['tipo'],$usuarioDB['mail']) : $usuarioDB;
         return $usuario;
     }
 }
