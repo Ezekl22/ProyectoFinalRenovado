@@ -34,11 +34,14 @@ define(
 );
 
 define('GRILLA_USUARIOS', array("Nombre", "Apellido", "Tipo", "Mail"));
+define('GRILLA_PRODUCTOS', array("Nombre", "Marca", "Detalle", "Stock", "Tipo", "Precio compra", "Precio venta"));
 define('GRILLA_PRESUPUESTOS', array("Cliente", "Comprobante", "Tipo", "Estado", "Fecha", "Punto de venta", "Total"));
 define('GRILLA_PRESUPUESTO_PRODUCTOS', array("Producto", "Cantidad", "Valor unitario", "Total", "Selección"));
 define('BOTONES_POPUP_PRODUCTOS', array(["texto" => "Cancelar", "tipo" => "button", "href" => ""], ["texto" => "Seleccionar", "tipo" => "button", "href" => "", "onclick" => "cargarGrillaProducto()"]));
 define('BOTONES_POPUP_ANULAR', array(["texto" => "Cancelar", "tipo" => "button", "href" => ""], ["texto" => "Anular", "tipo" => "a", "href" => "index.php?module=presupuestos&action=annulled&id=" . (isset($_GET["id"]) ? $_GET["id"] : ""), "onclick" => ""]));
 define('INICIO_SESION_BTN_P', array(["texto" => "Cancelar", "tipo" => "button", "href" => ""], ["texto" => "Ingresar", "tipo" => "submit", "href" => ""]));
+define('BOTONES_POPUP_ELIMINAR', array(["texto" => "Cancelar", "tipo" => "button", "href" => ""], ["texto" => "Eliminar", "tipo" => "a", "href" => "index.php?module=" . (isset($_GET["module"]) ? $_GET["module"] : "") . "&action=deleted&id=" . (isset($_GET["id"]) ? $_GET["id"] : ""), "onclick" => ""]));
+
 
 $recuperarContrasenaBotonesP = array(["texto" => "cancelar", "tipo" => "button", "href" => ""], ["texto" => "Enviar", "tipo" => "submit", "href" => ""]);
 $ingresarCodigoBotonesP = array(["texto" => "cancelar", "tipo" => "button", "href" => ""], ["texto" => "Verificar", "tipo" => "submit", "href" => ""]);

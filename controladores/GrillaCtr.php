@@ -22,7 +22,10 @@ class GrillaCtr{
                 require_once 'controladores/PresupuestoCtr.php';
                 $this->controlador = new PresupuestoCtr;
                 break;
-            
+            case 'productos':
+                require_once 'controladores/ProductoCtr.php';
+                $this->controlador = new ProductoCtr;
+                break;
             default:
                 # code...
                 break;

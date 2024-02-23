@@ -1,10 +1,9 @@
 
 <?php 
     $id = isset($_GET['id']) ? $_GET['id'] : '';
-
     $action = isset($_GET['action']) ? $_GET['action'] : '';
-    $productoCtr = new ProductoCtr();
-    $producto = $productoCtr->getProductoById($id);
+    $ProductoCtr = new ProductoCtr();
+    $producto = $ProductoCtr->productoDAO->getProductoById($id);
 
     if($action == 'edit' && $id != ''){
 
@@ -48,7 +47,7 @@
                                         <label class="input-group-text" for="tipo">Tipo</label>
                                         <select class="form-select" id="tipo" name="tipo" required>
                                             <option value="Producto" <?php echo ($producto['tipo'] == 'Producto') ? 'selected' : ''; ?> selected>Producto</option>
-                                            <option value="Repuesto" <?php echo ($user['tipo'] == 'Repuesto') ? 'selected' : ''; ?> >Repuesto</option>
+                                            <option value="Repuesto" <?php echo ($producto['tipo'] == 'Repuesto') ? 'selected' : ''; ?> >Repuesto</option>
                                         </select>
                                     </div>
                                 </div>
@@ -73,6 +72,5 @@
                 </article>
             </main>
         </body>
-        <script>mostrarOcultarPantallaEditar('editUsuario')</script>
         </html>
 <?php }?>

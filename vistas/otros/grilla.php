@@ -57,7 +57,7 @@
                     <?php } else { ?>
                         <!-- EDITAR - ACTIVADO-->
                         <a class="icono__contenedor me-2"
-                            href="index.php?module=usuarios&action=edit&id=<?php echo $datoCuerpo[0]; ?>">
+                            href="index.php?module=<?php echo $gestionPantallaCtr->getModule(); ?>&action=edit&id=<?php echo $datoCuerpo[0]; ?>">
                             <img class="icono__imagen" src="./assets/img/iconoEditar.png" alt="icono de editar">
                         </a>
                     <?php } ?>
@@ -71,7 +71,7 @@
                         <?php } else { ?>
                             <!-- ELIMINAR - ACTIVADO -->
                             <a class="icono__contenedor"
-                                href="index.php?module=usuarios&action=delete&id=<?php echo $datoCuerpo[0]; ?>">
+                                href="index.php?module=<?php echo $gestionPantallaCtr->getModule(); ?>&action=delete&id=<?php echo $datoCuerpo[0]; ?>">
                                 <img class="icono__imagen " src="./assets/img/iconoEliminar.svg" alt="icono de eliminar">
                             </a>
                         <?php } ?>
