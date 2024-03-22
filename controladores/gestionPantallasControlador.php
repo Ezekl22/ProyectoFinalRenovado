@@ -17,7 +17,7 @@ class GestionPantallasControlador
 
         $tipoUsuario = "";
         //verifico si hay un parametro get de module, si lo hay, traigo el tipo de usuario
-        if ($this->getModule() && !empty($this->getModule())) {
+        if ($this->getModule() && !empty ($this->getModule())) {
             session_start();
             $sesionCtr = $_SESSION['session'];
             session_write_close();
@@ -25,50 +25,50 @@ class GestionPantallasControlador
         }
         switch ($this->getModule()) {
             case 'presupuestos':
-                // verifico que el tipo de usuario no tiene acceso al modulo y si no lo tiene lo redirijo al menu
+                // verifico que el tipo de usuario tiene acceso al modulo y si no lo tiene lo redirijo al menu
                 if (strtoupper($tipoUsuario) != "REPARADOR") {
-                    include_once('./controladores/PresupuestoCtr.php');
+                    include_once ('./controladores/PresupuestoCtr.php');
                     $indexPage = new PresupuestoCtr();
                 } else {
                     $this->redireccionar('menu');
                 }
                 break;
             case 'reparacion':
-                // verifico que el tipo de usuario no tiene acceso al modulo y si no lo tiene lo redirijo al menu
+                // verifico que el tipo de usuario tiene acceso al modulo y si no lo tiene lo redirijo al menu
                 if (strtoupper($tipoUsuario) != "VENDEDOR") {
-                    include_once('controladores/ReparacionControlador.php');
+                    include_once ('controladores/ReparacionControlador.php');
                 } else {
                     $this->redireccionar('menu');
                 }
                 break;
             case 'clientes':
-                // verifico que el tipo de usuario no tiene acceso al modulo y si no lo tiene lo redirijo al menu
+                // verifico que el tipo de usuario tiene acceso al modulo y si no lo tiene lo redirijo al menu
                 if (strtoupper($tipoUsuario) != "REPARADOR") {
-                    include_once('controladores/ClienteCtr.php');
+                    include_once ('controladores/ClienteCtr.php');
                     $indexPage = new ClienteCtr();
                 } else {
                     $this->redireccionar('menu');
                 }
                 break;
             case 'proveedores':
-                // verifico que el tipo de usuario no tiene acceso al modulo y si no lo tiene lo redirijo al menu
+                // verifico que el tipo de usuario tiene acceso al modulo y si no lo tiene lo redirijo al menu
                 if (strtoupper($tipoUsuario) == "ADMINISTRADOR" || strtoupper($tipoUsuario) == "ADMINISTRADOR BASE") {
-                    include_once('controladores/ProveedorCtr.php');
+                    include_once ('controladores/ProveedorCtr.php');
                     $indexPage = new ProveedorCtr();
                 } else {
                     $this->redireccionar('menu');
                 }
                 break;
             case 'pedidos':
-                // verifico que el tipo de usuario no tiene acceso al modulo y si no lo tiene lo redirijo al menu
+                // verifico que el tipo de usuario tiene acceso al modulo y si no lo tiene lo redirijo al menu
                 if (strtoupper($tipoUsuario) != "REPARADOR") {
-                    include_once('controladores/PedidoCompraControlador.php');
+                    include_once ('controladores/PedidoCompraControlador.php');
                 } else {
                     $this->redireccionar('menu');
                 }
                 break;
             case 'usuarios':
-                // verifico que el tipo de usuario no tiene acceso al modulo y si no lo tiene lo redirijo al menu
+                // verifico que el tipo de usuario tiene acceso al modulo y si no lo tiene lo redirijo al menu
                 if (strtoupper($tipoUsuario) == "ADMINISTRADOR" || strtoupper($tipoUsuario) == "ADMINISTRADOR BASE") {
                     include_once './controladores/UsuarioCtr.php';
                     $indexPage = new UsuarioCtr();
@@ -98,11 +98,11 @@ class GestionPantallasControlador
                     $indexPage->getPantallaDelete();
                     break;
                 case 'create':
-                        $indexPage ->getPantallaCreate();
-                        break;
+                    $indexPage->getPantallaCreate();
+                    break;
                 case 'annul':
-                        $indexPage ->getPantallaAnnul();
-                        break;
+                    $indexPage->getPantallaAnnul();
+                    break;
                 default:
                     $indexPage->index();
                     break;
@@ -138,11 +138,11 @@ class GestionPantallasControlador
 
     public function getModule()
     {
-        return isset($_GET['module']) ? $_GET['module'] : '';
+        return isset ($_GET['module']) ? $_GET['module'] : '';
     }
 
     public function getAction()
     {
-        return isset($_GET['action']) ? $_GET['action'] : '';
+        return isset ($_GET['action']) ? $_GET['action'] : '';
     }
 }
