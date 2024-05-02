@@ -1,8 +1,8 @@
 <div class="modal fade" id="<?php echo $popUpM->getId(); ?>" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
-        <form action="<?php echo $popUpM->getAccion(); ?>" method="POST" onsubmit="return validarFormulario()">
-            <div class="modal-content">
+    <div <?php echo $popUpM->getId() == "grillaProductos" ? "class='modal-dialog justify-content-center d-flex' style='max-width:none;'" : "class='modal-dialog '" ?>>
+        <form action=" <?php echo $popUpM->getAccion(); ?>" method="POST" onsubmit="return validarFormulario()">
+            <div class="modal-content" <?php echo $popUpM->getId() == "grillaProductos" ? "style='width:80vw;'" : "" ?>>
                 <div class="modal-header headerPop__background">
                     <img src="./assets/img/logo-IntegralService.png" class="shadow rounded-3 me-2 logo"
                         alt="logo de integral Service">
@@ -53,7 +53,7 @@
                                 </label>
                                 <?php break;
                             case 'grillaProductos': ?>
-
+                                <div class="modal-body d-flex flex-column align-items-center" id="contGrillaProducto"></div>
                                 <?php
                                 break;
                             default:
@@ -69,7 +69,7 @@
                         switch ($boton['tipo']) {
                             case 'button':
                                 ?>
-                                <button type="button" class="btn button me-5" data-bs-dismiss="modal" <?php echo isset($boton['onclick']) ? 'onclick="' . $boton['onclick'] . '"' : ''; ?>>
+                                <button type="button" class="btn button me-5" aria-label="Close" data-bs-dismiss="modal" <?php echo isset($boton['onclick']) ? 'onclick="' . $boton['onclick'] . '"' : ''; ?>>
                                     <?php echo $boton['texto']; ?>
                                 </button>
                                 <?php

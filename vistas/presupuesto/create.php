@@ -65,27 +65,6 @@ echo "<script>const productos = $json;</script>";
                     <input class="btn button my-2" type="submit" value="Guardar cambios">
                 </div>
             </form>
-
-
-            <!-- <div class="modal fade" id="grillaProductos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog justify-content-center d-flex" style="max-width:none;">
-                    <div class="modal-content mx-3" style="width:80vw;">
-                        <div class="modal-header headerPop__background">
-                            <img src="./assets/img/logo-IntegralService.png" class="shadow rounded-3 me-2 logo" alt="logo de integral Service">
-                            <h2 class="modal-title fs-5" id="exampleModalLabel">Productos</h2>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body d-flex flex-column align-items-center" id="contGrillaProducto">
-                        
-                        </div>
-                        <div class="modal-footer d-flex justify-content-center headerPop__background">
-                            <button type="button" class="btn button me-5" onclick="cerrarGrilla('contGrillaProducto')" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" onclick="cargarGrillaProducto()" data-bs-dismiss="modal" aria-label="Close" class="btn button ">Seleccionar</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
             <?php $gestionPantallaCtr->crearPopUp(new PopUpMdl('grillaProductos', 'Productos', "", BOTONES_POPUP_PRODUCTOS, '')); ?>
         </article>
     </main>
