@@ -1,12 +1,10 @@
 <?php
 require_once 'models/GestionPantallasMdl.php';
-require_once 'models/GestionPantallasDAO.php';
 require_once 'models/PopUpMdl.php';
 require_once 'controladores/SesionCtr.php';
 
 class GestionPantallasControlador
 {
-    //private $GestionPantallasDAO;
 
     public function __construct()
     {

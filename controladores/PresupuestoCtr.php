@@ -1,5 +1,6 @@
 <?php
 require_once 'models/PresupuestoMdl.php';
+require_once 'models/ReparacionMdl.php';
 require_once 'models/PresupuestoDAO.php';
 require_once 'models/ProductoPresupuestoMdl.php';
 require_once 'controladores/ClienteCtr.php';
@@ -33,8 +34,13 @@ class PresupuestoCtr
             case 'annulled':
                 $this->annulled($id);
                 break;
-            case 'edited':
-                $this->update($id);
+            case 'edit':
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $status = isset($_GET['status']) ? $_GET['status'] : "";
+                    if ($status != "success") {
+                        $this->update($id);
+                    }
+                }
                 break;
             case 'facturar':
                 $this->facturar($id);
@@ -60,13 +66,17 @@ class PresupuestoCtr
 
         $presupuestos = $action == "searched" ? $this->search() : $this->presupuestoDAO->getAllPresupuestos();
 
-        $presupuestoCtr = $this;
+        $presupuestoCtr = $this->getInstance();
         if ($action == 'see') {
             $id = isset($_GET['id']) ? $_GET['id'] : '';
             $presupuesto = $this->getPresupuestoById($id);
             $cliente = $this->getClienteById($presupuesto->getIdCliente());
             $nombreCliente = $cliente['nombre'] . ' ' . $cliente['apellido'];
-            $productosPre = $this->getProductosPresupuestoById($presupuesto->getIdPresupuesto());
+            if ($presupuesto->getTipo() == "Venta") {
+                $productosPre = $this->getProductosPresupuestoById($presupuesto->getIdPresupuesto());
+            } else {
+                $reparacionPre = $this->getReparacionPresupuestoById($id);
+            }
             $total = 0;
         }
 
@@ -83,6 +93,11 @@ class PresupuestoCtr
         require_once 'vistas/presupuesto/presupuesto.php';
     }
 
+    public function getReparacionPresupuestoById($id)
+    {
+        return $this->presupuestoDAO->getReparacionPresupuestoById($id);
+    }
+
     public function getPantallaCreate()
     {
         session_start();
@@ -94,27 +109,26 @@ class PresupuestoCtr
 
     public function create()
     {
-        if (isset($_POST['idcliente'])) {
-            $productos = [];
-            $precioTotal = 0;
-            $estado = isset($_POST['tipo']) ? $_POST['tipo'] == 'Venta' ? 'Presupuestado' : 'Pendiente presupuesto' : '';
-            foreach ($_POST['idproductos'] as $index => $idproducto) {
-                $precioUnit = $this->productoCtr->getProductoById($idproducto)['precioventa'];
-                $cantidad = intval($_POST['cantidad'][$index]);
-                $producto = new ProductoPresupuestoMdl($idproducto, $precioUnit, $cantidad);
-                $precioTotal += $precioUnit * $cantidad;
-                array_push($productos, $producto);
+        if (isset($_POST['tipo'])) {
+            if ($_POST['tipo'] == "Venta") {
+                $productos_total = $this->getProductos_Total();
+                $estado = isset($_POST['tipo']) ? $_POST['tipo'] == 'Venta' ? 'Presupuestado' : 'Pendiente presupuesto' : '';
+                $presupuesto = new PresupuestoMdl(
+                    $_POST['idcliente'],
+                    $productos_total->productos,
+                    $this->getNuevoNroComprobante(),
+                    $_POST['tipo'],
+                    $estado,
+                    '0001',
+                    $productos_total->total
+                );
+                $status = $this->presupuestoDAO->create($presupuesto);
+            } else if ($_POST['tipo'] == "Reparacion") {
+                $presupuesto = new PresupuestoMdl($_POST['idcliente'], [], $this->getNuevoNroComprobante(), $_POST['tipo'], 'pendiente presupuesto', '0001', 0);
+                $reparacion = new ReparacionMdl($_POST['modelo'], $_POST['marca'], $_POST['nroserie'], $_POST['descripcion']);
+                $status = $this->presupuestoDAO->create($presupuesto, $reparacion);
             }
-            $presupuesto = new PresupuestoMdl(
-                $_POST['idcliente'],
-                $productos,
-                $this->getNuevoNroComprobante(),
-                $_POST['tipo'],
-                $estado,
-                '0001',
-                $precioTotal
-            );
-            $status = $this->presupuestoDAO->create($presupuesto);
+
             if ($status != "") {
                 header("Location: index.php?module=presupuestos&status=success");
             } else {
@@ -123,8 +137,29 @@ class PresupuestoCtr
         }
     }
 
+    private function getProductos_Total()
+    {
+        $productos = [];
+        $precioTotal = 0;
+        foreach ($_POST['idproductos'] as $index => $idproducto) {
+            $precioUnit = $this->productoCtr->getProductoById($idproducto)['precioventa'];
+            $cantidad = intval($_POST['cantidad'][$index]);
+            $producto = new ProductoPresupuestoMdl($idproducto, $precioUnit, $cantidad);
+            $precioTotal += $precioUnit * $cantidad;
+            array_push($productos, $producto);
+        }
+        $productos_Total = new stdClass();
+        $productos_Total->productos = $productos;
+        $productos_Total->total = $precioTotal;
+
+        return $productos_Total;
+    }
+
     public function getPantallaEdit()
     {
+        session_start();
+        $gestionPantallaCtr = $_SESSION['session']->getGestionPantallaCtr();
+        session_write_close();
         $this->index();
         require_once 'vistas/presupuesto/edit.php';
     }
@@ -161,13 +196,22 @@ class PresupuestoCtr
 
     public function update($id)
     {
-
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["idcliente"])) {
-                $presupuesto = new PresupuestoMdl($_POST["idcliente"], $_POST["nrocomprobante"], $_POST['tipo'], $_POST["estado"], $_POST["fecha"], $_POST["puntoventa"], $_POST["total"]);
-                $presupuesto->setIdPresupuesto($id);
-                $this->presupuestoDAO->updatePresupuesto($presupuesto);
+                $presupuesto = $this->getPresupuestoById($id);
+                $presupuesto->setIdCliente($_POST['idcliente']);
+                if ($presupuesto->getTipo() == "Venta") {
+                    $productos_total = $this->getProductos_Total();
+                    $presupuesto->setProductos($productos_total->productos);
+                    $presupuesto->setTotal($productos_total->total);
+                }
+                $status = $this->presupuestoDAO->updatePresupuesto($presupuesto);
             }
+        }
+        if ($status != "") {
+            header("Location: index.php?module=presupuestos&status=success");
+        } else {
+            header("Location: index.php?module=presupuestos&status=error&description=" . $status);
         }
     }
 
@@ -220,5 +264,10 @@ class PresupuestoCtr
     public function search()
     {
         return $this->presupuestoDAO->search();
+    }
+
+    public function getPresupuestoDAO()
+    {
+        return $this->presupuestoDAO;
     }
 }

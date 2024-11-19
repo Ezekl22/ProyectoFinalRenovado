@@ -21,7 +21,3 @@ ALTER TABLE `productospresupuestos`
 
 ALTER TABLE `productospresupuestos`
   MODIFY `idpresupuestoproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
-ALTER TABLE `productospresupuestos`
-  ADD CONSTRAINT `productospresupuestos_ibfk_1` FOREIGN KEY (`idpresupuesto`) REFERENCES `presupuestos` (`idpresupuesto`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `productospresupuestos_ibfk_2` FOREIGN KEY (`idproducto`) REFERENCES `productos` (`idproducto`) ON DELETE CASCADE ON UPDATE CASCADE;
