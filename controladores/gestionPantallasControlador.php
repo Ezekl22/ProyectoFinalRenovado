@@ -33,7 +33,7 @@ class GestionPantallasControlador
                 case 'presupuestos':
                     // verifico que el tipo de usuario no tiene acceso al modulo y si no lo tiene lo redirijo al menu
                     if (strtoupper($tipoUsuario) != "REPARADOR") {
-                        include_once ('./controladores/PresupuestoCtr.php');
+                        include_once('./controladores/PresupuestoCtr.php');
                         $indexPage = PresupuestoCtr::getInstance();
                     } else {
                         $this->redireccionar('menu');
@@ -42,7 +42,7 @@ class GestionPantallasControlador
                 case 'reparacion':
                     // verifico que el tipo de usuario no tiene acceso al modulo y si no lo tiene lo redirijo al menu
                     if (strtoupper($tipoUsuario) != "VENDEDOR") {
-                        include_once ('controladores/ReparacionControlador.php');
+                        include_once('controladores/ReparacionControlador.php');
                     } else {
                         $this->redireccionar('menu');
                     }
@@ -50,7 +50,7 @@ class GestionPantallasControlador
                 case 'clientes':
                     // verifico que el tipo de usuario no tiene acceso al modulo y si no lo tiene lo redirijo al menu
                     if (strtoupper($tipoUsuario) != "REPARADOR") {
-                        include_once ('controladores/ClienteCtr.php');
+                        include_once('controladores/ClienteCtr.php');
                         $indexPage = ClienteCtr::getInstance();
                     } else {
                         $this->redireccionar('menu');
@@ -59,7 +59,7 @@ class GestionPantallasControlador
                 case 'proveedores':
                     // verifico que el tipo de usuario no tiene acceso al modulo y si no lo tiene lo redirijo al menu
                     if (strtoupper($tipoUsuario) == "ADMINISTRADOR" || strtoupper($tipoUsuario) == "ADMINISTRADOR BASE") {
-                        include_once ('controladores/ProveedorCtr.php');
+                        include_once('controladores/ProveedorCtr.php');
                         $indexPage = new ProveedorCtr();
                     } else {
                         $this->redireccionar('menu');
@@ -68,7 +68,7 @@ class GestionPantallasControlador
                 case 'pedidos':
                     // verifico que el tipo de usuario tiene acceso al modulo y si no lo tiene lo redirijo al menu
                     if (strtoupper($tipoUsuario) != "REPARADOR") {
-                        include_once ('controladores/PedidoCompraControlador.php');
+                        include_once('controladores/PedidoCompraControlador.php');
                     } else {
                         $this->redireccionar('menu');
                     }
