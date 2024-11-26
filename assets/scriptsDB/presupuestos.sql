@@ -13,9 +13,9 @@ CREATE TABLE `presupuestos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `presupuestos` (`idpresupuesto`, `idcliente`,`nrocomprobante`, `tipo`, `estado`, `fecha`,`puntoventa`,`total`) VALUES
-(1, 2, '013456789', 'venta', 'Presupuestado', '05-02-2023', '0001', 140000),
-(2, 1, '098735610', 'venta', 'Pendiente presupuesto', '09-05-2023','0001', 100000),
-(3, 1, '312751963', 'reparacion', 'Reparado', '08-06-2023', '0001', 50000);
+(1, 2, '013456789', 'Venta', 'Presupuestado', '05-02-2023', '0001', 140000),
+(2, 1, '098735610', 'Venta', 'pendiente presupuesto', '09-05-2023','0001', 100000),
+(3, 1, '312751963', 'Reparacion', 'Reparado', '08-06-2023', '0001', 50000);
 
 ALTER TABLE `presupuestos`
   ADD PRIMARY KEY (`idpresupuesto`),

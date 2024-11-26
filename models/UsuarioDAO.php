@@ -111,16 +111,4 @@ class UsuarioDAO
             return $retorno;
         }
     }
-
-    private function checkExecute(PDOStatement $stmt)
-    {
-        $error = "";
-        if (!$stmt->execute()) {
-            $error = $stmt->errorInfo();
-        }
-
-        $stmt->closeCursor();
-        $stmt = null;
-        return $error;
-    }
 }

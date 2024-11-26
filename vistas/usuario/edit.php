@@ -57,7 +57,6 @@ if ($action == 'edit' && $id != '') {
                                 </select>
                             </div>
                         </div>
-                        <!-- <input class="btn button my-2" type="submit" value="Guardar cambios"> -->
                         <div class="d-flex justify-content-evenly w-75">
                             <input class="my-5 btn button w-25" type="submit" value="Guardar">
                             <a class="my-5 btn button w-25" type="button" href="index.php?module=usuarios">Cancelar</a>

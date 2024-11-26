@@ -17,7 +17,7 @@
                         <?php switch ($popUpM->getId()) {
                             case 'inicioSesion':
                                 ?>
-                                <input id="mail" type="text" class="mb-4 mx-5 form-control w-75" name="mail" placeholder="Mail"
+                                <input id="mail" type="email" class="mb-4 mx-5 form-control w-75" name="mail" placeholder="Mail"
                                     required>
                                 <input type="text" id="contrasena" name="contrasena" class="mx-5 form-control w-75"
                                     placeholder="Contraseña" required>
@@ -31,7 +31,7 @@
                             case 'recuperarCon': ?>
                                 <div class="d-flex mb-4 mx-5">Ingrese su correo electrónico y recibirá un código de verificación.
                                 </div>
-                                <input type="text" class="mb-4 mx-5 form-control w-75" placeholder="mail" required>
+                                <input type="email" class="mb-4 mx-5 form-control w-75" placeholder="mail" required>
                                 <?php break;
                             case 'ingCodigo': ?>
                                 <div class="d-flex mb-4 mx-5">Ingrese el codigo que se envio a su correo.</div>
@@ -39,8 +39,8 @@
                                 <?php break;
                             case 'nuevaCont': ?>
                                 <div class="d-flex mb-4 mx-5">Ingrese la nueva contraseña.</div>
-                                <input type="text" class="mx-5 mb-4" placeholder="Nueva contraseña" required>
-                                <input type="text" class="mx-5 mb-4" placeholder="Repita la contraseña" required>
+                                <input type="password" class="mx-5 mb-4" placeholder="Nueva contraseña" required>
+                                <input type="password" class="mx-5 mb-4" placeholder="Repita la contraseña" required>
                                 <?php break;
                             case 'delete': ?>
                                 <label class="mb-4 mx-5">

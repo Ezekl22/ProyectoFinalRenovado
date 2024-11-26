@@ -3,16 +3,16 @@
 class ReparacionMdl
 {
     private $modelo;
+    private $marca;
     private $numeroSerie;
     private $descripcion;
-    private $total;
 
-    public function __construct($modelo, $numeroSerie, $descripcion, $total)
+    public function __construct($modelo, $marca, $numeroSerie, $descripcion)
     {
         $this->modelo = $modelo;
+        $this->marca = $marca;
         $this->numeroSerie = $numeroSerie;
         $this->descripcion = $descripcion;
-        $this->total = $total;
     }
 
     // Getters y setters
@@ -25,6 +25,16 @@ class ReparacionMdl
     public function setModelo($modelo)
     {
         $this->modelo = $modelo;
+    }
+
+    public function getMarca()
+    {
+        return $this->marca;
+    }
+
+    public function setMarca($marca)
+    {
+        $this->marca = $marca;
     }
 
     public function getNumeroSerie()
@@ -45,15 +55,5 @@ class ReparacionMdl
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-    }
-
-    public function getTotal()
-    {
-        return $this->total;
-    }
-
-    public function setTotal($total)
-    {
-        $this->total = $total;
     }
 }

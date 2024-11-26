@@ -71,7 +71,7 @@ define('POPUP_PRODUCTOS_CUERPO_I', `</table>
 <div class="d-flex justify-content-center">
     <div class="input-group input-group-sm mb-3 w-25">
         <label class="input-group-text" for="cantidad" id="inputGroup-sizing-sm">Cantidad:</label>
-        <input type="text" class="form-control" aria-label="0" id="cantidadProducto" value="1">
+        <input type="number" class="form-control" aria-label="0" id="cantidadProducto" value="1">
     </div>
 </div>
 </div>`);

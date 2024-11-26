@@ -290,3 +290,7 @@ thead{
   margin: 60px 0;
   color: #fff;
 }
+
+.NroComprobanteTxt{
+  font-size: 11px !important;
+}

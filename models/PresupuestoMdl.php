@@ -1,6 +1,7 @@
 <?php
 
-class PresupuestoMdl {
+class PresupuestoMdl
+{
     private $idpresupuesto;
     private $idcliente;
     private $nrocomprobante;
@@ -8,10 +9,14 @@ class PresupuestoMdl {
     private $estado;
     private $fecha;
     private $puntoventa;
-    private $productos;
+    /** agrego esto para especificar de que tipo es para que lo tome el entorno de desarrollo
+     * @var ProductoPresupuestoMdl[]
+     */
+    private array $productos;
     private $total;
 
-    public function __construct($idcliente, $productos, $nrocomprobante, $tipo, $estado, $puntoventa, $total) {
+    public function __construct($idcliente, array $productos, $nrocomprobante, $tipo, $estado, $puntoventa, $total)
+    {
         $this->idcliente = $idcliente;
         $this->productos = $productos;
         $this->nrocomprobante = $nrocomprobante;
@@ -23,75 +28,93 @@ class PresupuestoMdl {
 
     // Getters y setters
 
-    public function getIdPresupuesto() {
+    public function getIdPresupuesto()
+    {
         return $this->idpresupuesto;
     }
 
-    public function setIdPresupuesto($idpresupuesto) {
+    public function setIdPresupuesto($idpresupuesto)
+    {
         $this->idpresupuesto = $idpresupuesto;
     }
 
-    public function getIdCliente() {
+    public function getIdCliente()
+    {
         return $this->idcliente;
     }
 
-    public function setIdCliente($idcliente) {
+    public function setIdCliente($idcliente)
+    {
         $this->idcliente = $idcliente;
     }
 
-    public function getProductos() {
+    public function getProductos()
+    {
         return $this->productos;
     }
 
-    public function setProductos($productos) {
+    public function setProductos($productos)
+    {
         $this->productos = $productos;
     }
 
-    public function getNroComprobante() {
+    public function getNroComprobante()
+    {
         return $this->nrocomprobante;
     }
 
-    public function setNroComprobante($nrocomprobante) {
+    public function setNroComprobante($nrocomprobante)
+    {
         $this->nrocomprobante = $nrocomprobante;
     }
 
-    public function getEstado() {
+    public function getEstado()
+    {
         return $this->estado;
     }
 
-    public function setEstado($estado) {
+    public function setEstado($estado)
+    {
         $this->estado = $estado;
     }
 
-    public function getFecha() {
+    public function getFecha()
+    {
         return $this->fecha;
     }
 
-    public function setFecha($fecha) {
+    public function setFecha($fecha)
+    {
         $this->fecha = $fecha;
     }
 
-    public function getPuntoVenta() {
+    public function getPuntoVenta()
+    {
         return $this->puntoventa;
     }
 
-    public function setPuntoVenta($puntoventa) {
+    public function setPuntoVenta($puntoventa)
+    {
         $this->puntoventa = $puntoventa;
     }
 
-    public function getTotal() {
+    public function getTotal()
+    {
         return $this->total;
     }
 
-    public function setTotal($total) {
+    public function setTotal($total)
+    {
         $this->total = $total;
     }
 
-    public function getTipo() {
+    public function getTipo()
+    {
         return $this->tipo;
     }
 
-    public function setTipo($tipo) {
+    public function setTipo($tipo)
+    {
         $this->tipo = $tipo;
     }
 }

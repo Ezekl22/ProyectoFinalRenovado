@@ -33,11 +33,11 @@ const agregarComponenteProducto = () =>{
                                 <label class="input-group-text" for="producto" id="inputGroup-sizing-sm">Producto:</label>
                                 <input type="text" class="form-control w-25" disabled id="producto" value = "${productoSeleccionado[1]}">
                                 <label class="input-group-text" for="cantidad" id="inputGroup-sizing-sm">Cantidad:</label>
-                                <input type="text" class="form-control" aria-label="0" onchange="cantidadOnChange('${productoSeleccionado[0]}','${id}')" id="cantidad" name="cantidad[]">
+                                <input type="number" class="form-control" aria-label="0" onchange="cantidadOnChange('${productoSeleccionado[0]}','${id}')" id="cantidad" name="cantidad[]">
                                 <label class="input-group-text" for="valorunt" id="inputGroup-sizing-sm">Valor unitario:</label>
                                 <input type="text" class="form-control" disabled value= "${currencyFormatter(modulo == "pedidos"?productoSeleccionado[6]:productoSeleccionado[7])}" id="valorunt">
                                 <label class="input-group-text" for="totañ" id="inputGroup-sizing-sm">Total:</label>
-                                <input type="text" class="form-control me-7" disabled aria-label="0" id="total">
+                                <input type="number" class="form-control me-7" disabled aria-label="0" id="total" step="any">
                                 <input type="hidden" class="form-control me-7" aria-label="0" value="${productoSeleccionado[0]}" id="idproductos" name="idproductos[]">`;
     contProductos.appendChild(contComponente);
     cerrarGrilla('contGrillaProducto');
@@ -49,7 +49,7 @@ const currencyFormatter =(value)=> {
       style: 'currency',
       minimumFractionDigits: 2,
       currency
-    }) 
+    })
     return formatter.format(value)
 }
 
@@ -59,7 +59,7 @@ const mostrarGrillaProductos = ()=>{
     let contenedor = document.createElement("div");
     let cuerpoGrilla = '';
     contenedor.className = "grilla d-flex flex-column align-items-center rounded-4 w-100";
-    
+
     productos.forEach(producto => {
        cuerpoGrilla =cuerpoGrilla+ `<tr class="grilla__cuerpo">
                                         <td>${producto[1]}</td>
@@ -74,7 +74,7 @@ const mostrarGrillaProductos = ()=>{
                                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="seleccion${producto[0]}">
                                             </div>
                                         </td>
-                                    </tr>`;  
+                                    </tr>`;
     });
     contenedor.innerHTML = `<div class="d-flex mt-3 justify-content-end" style="width:90%;">
                                 <div class="input-group input-group-sm w-25">
@@ -99,7 +99,7 @@ const mostrarGrillaProductos = ()=>{
                                 <div class="d-flex justify-content-center">
                                     <div class="input-group input-group-sm my-3 w-25">
                                         <label class="input-group-text" for="cantidad" id="inputGroup-sizing-sm">Cantidad:</label>
-                                        <input type="text" class="form-control" aria-label="0" id="cantidadProducto" value="1">
+                                        <input type="number" class="form-control" aria-label="0" id="cantidadProducto" value="1">
                                     </div>
                                 </div>
                             </div>`;
@@ -121,58 +121,89 @@ const quitarComponenteProducto = () =>{
 }
 
 const habilitarDeshabilitarBtn = () =>{
-    
+
 }
 
 const recalcularTotal = () =>{
     const totalesProductos = document.querySelectorAll('#total');
     const importeTotal = document.getElementById('totalproductos');
+    
     let total = parseFloat(0);
     totalesProductos.forEach(totalProducto =>{
         total = total + parseFloat(totalProducto.childNodes[0].data.replace(/[$,]/g, ""));
     });
-    importeTotal.value = currencyFormatter(total);
+    importeTotal.setAttribute('value', currencyFormatter(total));
 }
 
 const cantidadOnChange = (idProducto ,id, esPresupuesto) =>{
     const inputTotal = document.querySelector('#'+id+' #total').childNodes[0];
     const cantidad = document.querySelector('#'+id+' #cantidad').value;
-    const producto = productos.filter(producto => producto[0] === parseInt(idProducto) )
-    inputTotal.data =currencyFormatter(esPresupuesto? producto['precioventa']:producto[6] * parseInt(cantidad));
+    const producto = productos.find(producto =>producto.idproducto === parseInt(idProducto) )
+    inputTotal.data = currencyFormatter(producto.precioventa * parseInt(cantidad));
     recalcularTotal();
 }
 
 const mostrarVentanaModal = (id) =>{
     var miModal = new bootstrap.Modal(document.getElementById(id));
     miModal.show();
-}    
+}
 
 const validarFormulario = () =>{
-    
-} 
 
-const cargarGrillaProducto = (module) =>{
+}
+
+const cargarGrillaProducto = (module, productosPrecargados = []) =>{
     let contProductos = document.getElementById("grilla");
-    let contComponente = document.createElement("tr");
-    const cantidad = document.getElementById("cantidadProducto").value;
-    let productoSeleccionado;
-    productos.forEach(producto=>{
-        const checkSeleccion = document.getElementById("seleccion"+producto[0]);
-        if (checkSeleccion.checked)
-            productoSeleccionado = producto;
-    });
-    let id = "producto"+(productoSeleccionado[0]);
-    contComponente.className = "grilla__cuerpo";
-    contComponente.id = id;
-    contComponente.innerHTML =  `<td id="producto"> ${productoSeleccionado[1]} </td>
-                                 <td> <input type="number" value="${cantidad}" class="form-control" onchange="cantidadOnChange('${productoSeleccionado[0]}','${id}', '${module === "presupuestos"}')" id="cantidad" name="cantidad[]" min="1"</td>
-                                 <td id="valorunt"> ${currencyFormatter(productoSeleccionado[7])} </td>
-                                 <td id="total"> ${currencyFormatter(parseInt(cantidad) * productoSeleccionado[7])} </td>
+    if (productosPrecargados.length == 0) {
+        let seAgregaProducto = true;
+        let contComponente = document.createElement("tr");
+        const cantidad = document.getElementById("cantidadProducto").value;
+        let productoSeleccionado;
+        productos.forEach(producto=>{
+            const checkSeleccion = document.getElementById("seleccion"+producto[0]);
+            if (checkSeleccion.checked)
+                productoSeleccionado = producto;
+        });
+        let id = "producto"+(productoSeleccionado[0]);
+        if (contProductos.childElementCount > 0) {
+            Array.from(contProductos.children).forEach(productoGrilla =>{
+                if (productoGrilla.id == id){
+                    const cantidadProducto = document.querySelector('#grilla #'+id+' #cantidad');
+                    cantidadProducto.value = Number(cantidadProducto.value) +  Number(cantidad);
+                    cantidadOnChange(productoSeleccionado[0], productoGrilla.id, true);
+                    seAgregaProducto=false;
+                }
+            })
+        }
+        if (seAgregaProducto) {
+            
+            contComponente.className = "grilla__cuerpo";
+            contComponente.id = id;
+            contComponente.innerHTML =  `<td id="producto"> ${productoSeleccionado.nombre} </td>
+                                        <td> <input type="number" value="${cantidad}" class="form-control" onchange="cantidadOnChange('${productoSeleccionado[0]}','${id}', '${module === "presupuestos"}')" id="cantidad" name="cantidad[]" min="1"</td>
+                                        <td id="valorunt"> ${currencyFormatter(productoSeleccionado[7])} </td>
+                                        <td id="total"> ${currencyFormatter(parseInt(cantidad) * productoSeleccionado[7])} </td>
+                                        <td><input class="form-check-input checksProductos" onchange="onChangeChecks()" type="checkbox"></td>
+                                        <input type="hidden" class="form-control me-7" aria-label="0" value="${productoSeleccionado[0]}" id="idproductos" name="idproductos[]">`;
+            contProductos.appendChild(contComponente);
+        }
+        cerrarGrilla('contGrillaProducto');
+    }else{
+        productosPrecargados.forEach((productoPrecargado)=>{
+            let id = "producto"+(productoPrecargado[0]);
+            let contComponente = document.createElement("tr");
+            contComponente.className = "grilla__cuerpo";
+            contComponente.id = id;
+            contComponente.innerHTML =  `<td id="producto"> ${productoPrecargado.nombre} </td>
+                                 <td> <input type="number" value="${productoPrecargado.cantidad}" class="form-control" onchange="cantidadOnChange('${productoPrecargado.idproducto}','${id}', '${module === "presupuestos"}')" id="cantidad" name="cantidad[]" min="1"</td>
+                                 <td id="valorunt"> ${currencyFormatter(productoPrecargado.precioventa)} </td>
+                                 <td id="total"> ${currencyFormatter(parseInt(productoPrecargado.cantidad) * productoPrecargado.precioventa)} </td>
                                  <td><input class="form-check-input checksProductos" onchange="onChangeChecks()" type="checkbox"></td>
-                                 <input type="hidden" class="form-control me-7" aria-label="0" value="${productoSeleccionado[0]}" id="idproductos" name="idproductos[]">`;
-    contProductos.appendChild(contComponente);
+                                 <input type="hidden" class="form-control me-7" aria-label="0" value="${productoPrecargado.idproducto}" id="idproductos" name="idproductos[]">`;
+            contProductos.appendChild(contComponente);
+        })
+    }
     recalcularTotal();
-    cerrarGrilla('contGrillaProducto');
 }
 
 const onChangeChecks = ()=>{

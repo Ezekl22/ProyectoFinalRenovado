@@ -23,28 +23,37 @@
 
                         <?php if (in_array($gestionPantallaCtr->getModule(), ["presupuestos", "pedidos"])) { ?>
                         <!-- VER -->
-                                <a class="icono__contenedor me-2" title="ver"
-                                    href="index.php?module=<?php echo $gestionPantallaCtr->getModule(); ?>&action=see&id=<?php echo $datoCuerpo[0]; ?>">
-                                    <img class="icono__imagen" src="./assets/img/iconoVer.png" alt="icono de ver">
-                                </a>
-                                <?php if (strtoupper($datoCuerpo[4]) == "FACTURADO") { ?>
-                                    <!-- CAMBIAR ESTADO - DESACTIVADO -->
-                                    <label class="icono__contenedor me-2 " title="Cambiar estado">
-                                        <img class="icono__imagen svg-disabled-color"
-                                            src="./assets/img/iconoCambiarEstadoDeshabilitado.svg" alt="icono de cambiar estado">
+                                <?php if (strtoupper($datoCuerpo[4]) != "PENDIENTE PRESUPUESTO") { ?>
+                                    <a class="icono__contenedor me-2" title="ver"
+                                        href="index.php?module=<?php echo $gestionPantallaCtr->getModule(); ?>&action=see&id=<?php echo $datoCuerpo[0]; ?>">
+                                        <img class="icono__imagen" src="./assets/img/iconoVer.png" alt="icono de ver">
+                                    </a>
+                                <?php } else { ?>
+                                    <label class="icono__contenedor me-2" title="ver">
+                                        <img class="icono__imagen" src="./assets/img/iconoVerDeshabilitado.png" alt="icono de ver">
                                     </label>
+                                <?php } ?>
+                                <?php if (strtoupper($datoCuerpo[4]) != "PRESUPUESTADO" && strtoupper($datoCuerpo[4]) != "REPARADO") { ?>
+                                    <!-- CAMBIAR ESTADO - DESACTIVADO -->
+                                    <label class="icono__contenedor me-2" title="Cambiar Estado">
+                                        <img class="icono__imagen" src="./assets/img/iconoCambiarEstadoDeshabilitado.svg"
+                                            alt="icono de Cambiar Estado">
+                                    </label>
+                                <?php } else { ?>
+                                    <!-- CAMBIAR ESTADO - ACTIVO -->
+                                    <a class="icono__contenedor me-2" title="Cambiar Estado"
+                                        href="index.php?module=<?php echo $gestionPantallaCtr->getModule(); ?>&action=cambiarestado&id=<?php echo $datoCuerpo[0]; ?>">
+                                        <img class="icono__imagen" src="./assets/img/iconoCambiarEstado.svg"
+                                            alt="icono de Cambiar Estado">
+                                    </a>
+                                <?php } ?>
+                                <?php if (strtoupper($datoCuerpo[4]) == "FACTURADO" || strtoupper($datoCuerpo[4]) == "PENDIENTE PRESUPUESTO" || strtoupper($datoCuerpo[4]) == "ANULADO") { ?>
                                     <!-- FACTURAR - DESACTIVADO -->
                                     <label class="icono__contenedor me-2" title="Facturar">
                                         <img class="icono__imagen" src="./assets/img/iconoFacturarDeshabilitado.svg"
                                             alt="icono de Facturar">
                                     </label>
                                 <?php } else { ?>
-                                    <!-- CAMBIAR ESTADO - ACTIVO-->
-                                    <a class="icono__contenedor me-2 " title="Cambiar estado"
-                                        href="index.php?module=<?php echo $gestionPantallaCtr->getModule(); ?>&action=cambiarestado&id=<?php echo $datoCuerpo[0]; ?>">
-                                        <img class="icono__imagen" src="./assets/img/iconoCambiarEstado.svg"
-                                            alt="icono de cambiar estado">
-                                    </a>
                                     <!-- FACTURAR - ACTIVO -->
                                     <a class="icono__contenedor me-2" title="Facturar"
                                         href="index.php?module=<?php echo $gestionPantallaCtr->getModule(); ?>&action=facturar&id=<?php echo $datoCuerpo[0]; ?>">
@@ -53,7 +62,7 @@
                                 <?php } ?>
 
                             <?php }
-                        if (in_array($gestionPantallaCtr->getModule(), ["presupuestos", "pedidos"]) && strtoupper($datoCuerpo[4]) == "FACTURADO") { ?>
+                        if (in_array($gestionPantallaCtr->getModule(), ["presupuestos", "pedidos"]) && strtoupper($datoCuerpo[4]) == "FACTURADO" || strtoupper($datoCuerpo[4]) == "ANULADO") { ?>
                                 <!-- EDITAR - DESACTIVADO-->
                                 <label class="icono__contenedor me-2" title="Editar">
                                     <img class="icono__imagen" src="./assets/img/iconoEditarDeshabilitado.png"
@@ -61,8 +70,8 @@
                                 </label>
                             <?php } else { ?>
                                 <!-- EDITAR - ACTIVADO-->
-                                <a class="icono__contenedor me-2"
-                                    href="index.php?module=<?php echo $gestionPantallaCtr->getModule(); ?>&action=edit&id=<?php echo $datoCuerpo[0]; ?>">
+                                <a class="icono__contenedor me-2" href="index.php?module=<?php echo $gestionPantallaCtr->getModule(); ?>&action=edit&id=<?php echo $datoCuerpo[0];
+                                   echo "&type=" . $datoCuerpo[3]; ?>">
                                     <img class="icono__imagen" src="./assets/img/iconoEditar.png" alt="icono de editar">
                                 </a>
                             <?php } ?>
@@ -81,7 +90,7 @@
                                     </a>
                                 <?php } ?>
                             <?php } else {
-                                if (strtoupper($datoCuerpo[4]) == "FACTURADO") { ?>
+                                if (strtoupper($datoCuerpo[4]) == "FACTURADO" || strtoupper($datoCuerpo[4]) == "ANULADO") { ?>
                                     <!-- ANULAR - DESACTIVADO -->
                                     <label class="icono__contenedor me-2" title="Anular">
                                         <img class="icono__imagen" src="./assets/img/iconoAnularDeshabilitar.png"
