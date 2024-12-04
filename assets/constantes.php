@@ -35,6 +35,7 @@ define(
 
 define('GRILLA_USUARIOS', array("Nombre", "Apellido", "Tipo", "Mail"));
 define('GRILLA_PRESUPUESTOS', array("Cliente", "Comprobante", "Tipo", "Estado", "Fecha", "Punto de venta", "Total"));
+define('GRILLA_PROVEEDORES', array("Nombre", "Categoria fiscal", "Direccion", "Telefono", "Correo", "Saldo", "Fecha"));
 define('GRILLA_PRESUPUESTO_PRODUCTOS', array("Producto", "Cantidad", "Valor unitario", "Total", "Selección"));
 define('GRILLA_CLIENTES', array("Nombre", "Apellido", "Mail", "Cuit", "Categoria fiscal"));
 define('BOTONES_POPUP_ELIMINAR', array(["texto" => "Cancelar", "tipo" => "button", "href" => ""], ["texto" => "Eliminar", "tipo" => "a", "href" => "index.php?module=" . (isset($_GET["module"]) ? $_GET["module"] : "") . "&action=deleted&id=" . (isset($_GET["id"]) ? $_GET["id"] : ""), "onclick" => ""]));
